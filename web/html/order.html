@@ -1,0 +1,35 @@
+<style>
+
+.map iframe {
+  height: 300px;
+  width: 300px;
+}
+
+.map{
+    border: 5px solid #f6f5f0;
+    height: 300px;
+    width: 300px;
+    box-shadow: 0px 0px 3px 3px #e7e4dc;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+</style>
+
+<div class="container-fluid">
+<div class="row addressdiv">
+<div class="col-md-4 text-center">
+            <div class="map">
+                <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps?q=[${company.google.address}]&output=embed" frameborder="0"></iframe>
+            </div>
+</div>
+<div class="col-md-4 col-sm-6">
+<span class="addresslable"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;Visit Our Shop:</span><br><br>
+<span class="address"> ${company.address} </span>
+</div>
+<div class="col-md-4 col-sm-6">
+<span class="addresslable"><i class="fa fa-mobile" aria-hidden="true"></i>&nbsp;Call Us:</span><br><br>
+<span class="address">Mobile: ${company.mobile}. </span>
+</div>
+</div>
+</div>

@@ -1,0 +1,27 @@
+<div class="row">
+<div class="col-md-12 slidetitle text-center">Fashion Begins Here..</div>
+<div class="container-fluid text-center slideover">
+
+ <div class="carousel slide row" data-ride="carousel" data-type="multi" data-interval="4000" id="myCarousel1">
+
+  <div class="carousel-inner">
+#set($html = ".html")
+#foreach ($ind in $indexList)
+	#if ( $ind == 0)
+   <div class="item active">
+	#else
+   <div class="item">
+	#end
+    <div class="col-md-3 col-sm-4 col-xs-12">
+     <a href="$sheet.get($ind).get(2)$html"><img src="images/$sheet.get($ind).get(2)/$sheet.get($ind).get(0)" class="img-responsive">
+      <div class="col-md-12 text-primary text-center"><strong>$sheet.get($ind).get(1)</strong></div>
+     </a>
+    </div>
+   </div>
+#end
+  </div>
+  <a class="left carousel-control" href="#myCarousel1" data-slide="prev"><i class="glyphicon glyphicon-chevron-left arrow" ></i></a>
+  <a class="right carousel-control" href="#myCarousel1" data-slide="next"><i class="glyphicon glyphicon-chevron-right  arrow"></i></a> 
+ </div>
+</div>
+</div>
