@@ -57,6 +57,12 @@ public class ApparelViewPage extends DefaultSubPage {
 		FileUtil.save(dirName+"/"+fileName, getHTMLString().toString());
 	}
 	
+	public void save(String dirName, int index) {
+		String fileName = env.getProperty(pageId+".filename",map.get("file.url"));
+		fileName = fileName.replace(".html",index+".html");
+		FileUtil.save(dirName+"/"+fileName, getHTMLString().toString());
+	}
+	
 	@Override
 	public StringBuffer getContent() {
 		StringBuffer sb = new StringBuffer();

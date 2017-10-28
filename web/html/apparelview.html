@@ -1,7 +1,62 @@
+ <style>
+#first{
+	border:0px solid black; 	
+	position: relative; 
+	z-index: 1;
+}
+#second{
+  border:1px solid black;
+  width:300px;
+  height:350px;
+  position: relative; 
+  z-index: 1;
+  display:inline-block;
+  background-repeat:no-repeat;
+}
+</style>
+ <script>
+function zOut() {
+  var element1 = document.getElementById("second");
+  element1.style.display = "none";
+  var element2 = document.getElementById("first");
+  element2.style.display = "inline-block";
+}
+function zIn(event) {
+  var element1 = document.getElementById("first");
+  element1.style.display = "none";
+  var element2 = document.getElementById("second");
+  element2.style.display = "inline-block";
+  var img = document.getElementById("img1");
+  iw = img.naturalWidth;  ih = img.naturalHeight;
+  fw = 250; fh = 300;
+  sw = iw; sh = ih;
+  ri = iw/ih; rs = sw/sh; 
+  if(rs<ri){
+	zih = sw/ri; ziw = sw;
+  } else {
+	zih = sh; ziw = sh * ri;
+  }
+  var posX =  (event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft);
+  var posY =  (event.offsetY ? (event.offsetY) : event.pageY - img.offsetTop);
+  rw = (ziw-fw<=0) ? 0 : ((fw-ziw)/fw); 	
+  rh = (zih-fh<=0) ? 0 : ((fh-zih)/fh); 	
+  ow = (ziw-fw<=0) ? (fw-ziw)/2 : 0; 	
+  oh = (zih-fh<=0) ? (fh-zih)/2 : 0; 	
+  pw = ow + posX * rw;
+  ph = oh + posY * rh;
+  element2.style.backgroundPosition=pw+"px "+ph+"px";
+  //document.getElementById("txt").value='iw:'+iw+' ih:'+ih +' fw:'+fw+' fh:'+fh +' sw:'+sw+' sh:'+sh +' ri:'+ri+' rs:'+rs +' zih:'+zih+' ziw:'+ziw +' rw:'+rw+' rh:'+rh +' ow:'+ow+' oh:'+oh +' pw:'+pw+' ph:'+ph;
+}
+function init() {
+zOut();
+}
+</script>
+
 <div class="container-fluid">
 <div class="row">
-<div class="col-md-6 text-center col-sm-6">
-<img src="${image.url}" class="detailsimg img-responsive">
+<div class="col-md-6 text-center col-sm-6 detailsdiv1">
+<div id="first" onmousemove="zIn(event)" onmouseout="zOut()"><img id="img1" name="img1" src="${image.url}" class="detailsimg img-responsive"></div><div id="second" style="background-image:url('${image.url}');" onmousemove="zIn(event)" onmouseout="zOut()"></div>
+<script>zOut();</script>
 </div>
 
 <div class="col-md-6 col-sm-6">

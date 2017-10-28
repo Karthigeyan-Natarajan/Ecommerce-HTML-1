@@ -3,12 +3,10 @@ package com.yawinsoftwares.ecommerce.html.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
 import com.yawinsoftwares.ecommerce.html.api.Page;
 import com.yawinsoftwares.ecommerce.html.api.Project;
 import com.yawinsoftwares.ecommerce.html.util.ExcelUtil;
@@ -53,8 +51,8 @@ public class DefaultProject implements Project {
 			FileUtil.copyDirectory(projectProperties.getProperty("project.fonts.dir"),folderName+"/fonts");
 			FileUtil.copyDirectory(projectProperties.getProperty("project.js.dir"),folderName+"/js");
 			FileUtil.copyDirectory(projectProperties.getProperty("project.images.dir"),folderName+"/images");
-			//createStaticPages(folderName);
-			//createApparelSubPages(folderName);
+			createStaticPages(folderName);
+			createApparelSubPages(folderName);
 			createApparelIndexPages(folderName);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -89,14 +87,24 @@ public class DefaultProject implements Project {
 		while(sheetIterator.hasNext()) {
 			String name = sheetIterator.next();
 			System.out.println(name);
-			Page page = context.getBean(ApparelListPage.class,name,sheetMap.get(name),folderName);
-			page.save(folderName);
+			ArrayList<ArrayList<Object>> sheet = sheetMap.get(name);
+			int pages = sheet.size()/12 +1;
+			for(int i=0; i<pages; i++) {
+				Page page = context.getBean(ApparelListPage.class,name,sheetMap.get(name),folderName,i);
+				page.save(folderName);
+			}
+
+			for(int i=pages; i<5; i++) {
+				String fileName = env.getProperty(name+".filename",name+".html");
+				fileName = fileName.replace(".html", i+".html");
+				FileUtil.save(folderName+"/"+fileName, "");
+			}
 		}
 	}
 	
 	public void createApparelIndexPages(String folderName) {
 		String name="index";
-		Page page = context.getBean(ApparelIndexPage.class,name);
+		Page page = context.getBean(ApparelIndexPage.class,name, folderName);
 		System.out.println(name);
 		page.save(folderName);
 	}

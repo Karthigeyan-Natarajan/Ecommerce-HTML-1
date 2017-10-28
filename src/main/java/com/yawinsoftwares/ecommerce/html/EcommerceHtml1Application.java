@@ -1,14 +1,9 @@
 package com.yawinsoftwares.ecommerce.html;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import com.yawinsoftwares.ecommerce.html.api.Page;
 import com.yawinsoftwares.ecommerce.html.api.Project;
-import com.yawinsoftwares.ecommerce.html.impl.DefaultPage;
 import com.yawinsoftwares.ecommerce.html.impl.DefaultProject;
-import com.yawinsoftwares.ecommerce.html.impl.StaticPage;
 
 @SpringBootApplication
 public class EcommerceHtml1Application {

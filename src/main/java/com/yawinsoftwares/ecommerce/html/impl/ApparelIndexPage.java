@@ -17,12 +17,15 @@ import com.yawinsoftwares.ecommerce.html.util.FileUtil;
 @Scope("prototype")
 public class ApparelIndexPage extends DefaultSubPage {
 
+	String folderName = null;
+
 	public ApparelIndexPage() {
 	}
 	
 	@Autowired
-	public ApparelIndexPage(String pageId) {
+	public ApparelIndexPage(String pageId, String folderName) {
 		this.pageId=pageId;
+		this.folderName=folderName;
 	}
 
 	@Override
@@ -41,18 +44,24 @@ public class ApparelIndexPage extends DefaultSubPage {
 	
 	public StringBuffer getSlideShow(String slideshowDir) {
 		StringBuffer sb = new StringBuffer();
-		File[] fileList = FileUtil.listFiles(slideshowDir,"jpg,jpeg,gif");
-		List<String> fileNameList = new ArrayList<String>();
-		List<Integer> indexList = new ArrayList<Integer>();
-		int count =0;
-		for(File file:fileList) {
-			fileNameList.add(slideshowDir+"/"+file.getName());
-			indexList.add(count++);
+		try {
+			FileUtil.copyDirectory(slideshowDir,folderName+"/images/slideshow");
+			File[] fileList = FileUtil.listFiles(slideshowDir,"jpg,jpeg,gif");
+			List<String> fileNameList = new ArrayList<String>();
+			List<Integer> indexList = new ArrayList<Integer>();
+			int count =0;
+			for(File file:fileList) {
+				fileNameList.add("images/slideshow/"+file.getName());
+				indexList.add(count++);
+			}
+			HashMap<String, Object> map = new HashMap<String,Object>();
+			map.put("list", fileNameList);
+			map.put("indexList", indexList);
+			sb.append(velocity(findAndReplace(FileUtil.read(projectProperties.getProperty("project.html.dir")+"/slideshow.html")),map));
+		} catch(Exception e) {
+			System.out.println("ERROR:"+slideshowDir+" not available");
 		}
-		HashMap<String, Object> map = new HashMap<String,Object>();
-		map.put("list", fileNameList);
-		map.put("indexList", indexList);
-		sb.append(velocity(findAndReplace(FileUtil.read(projectProperties.getProperty("project.html.dir")+"/slideshow.html")),map));
+			
 		return sb;
 	}
 
